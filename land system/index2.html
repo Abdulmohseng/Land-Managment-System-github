@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Land Managment System</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var counter = 1;
+            var total_price = 0;
+            var total_s3y = 0;
+            var total_s3y_per_person = 0;
+
+            $(".add_field").click(function(){
+                $(".container").append('<div>Area: <input type="text" id="area'+counter+'"> Price: <input type="text" id="price'+counter+'">  Result: <input type="text" disabled="disabled" id="result'+counter+'" value=""> s3y: <input type="text" disabled="disabled" id="s3y'+counter+'" value="">  s3y/person: <input type="text" disabled="disabled" id="s3y_per_person'+counter+'" value=""></div><br>');
+                counter++;
+            })
+            $(".submit").click(function(){
+                for(var i = 1; i <= counter; i++){
+                    var num1 = $('#area'+i).val();
+                    var num2 = $('#price'+i).val();
+                    
+                    var s3y = output * 0.025;
+                    var output = num1 * num2 + s3y;
+                    var num_of_people = $('#num_of_people').val();
+                    var s3y_per_person = s3y/num_of_people;
+                    total_price = (num1 * num2) + total_price ;
+                    total_s3y += s3y;
+                    total_s3y_per_person = total_s3y_per_person + s3y_per_person;
+                    $('#result'+i).val(output);
+                    $('#s3y'+i).val(s3y);
+                    $('#s3y_per_person'+i).val(s3y_per_person);
+
+
+                }
+                
+                
+               
+            })
+            
+        })
+    </script>
+    <style>
+        .container {
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            margin: auto;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            
+        }
+        .container1 {
+            align-items: auto;
+        }
+        input {
+            padding: 10px;
+            margin: 10px 3px;
+            border-radius: 10px;       
+            font-family:inherit;
+            font-size: inherit;
+            border-color:grey;
+        }
+
+        button {
+            background-color: #008CBA; 
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        select {
+            background-color:  #008CBA;
+            color: white;
+            padding: 15px 32px;
+            width: 100px;
+            border: none;
+            font-size: 16px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            -webkit-appearance: button;
+            appearance: button;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Land Managment System</h1>
+    
+    <div class="container">
+        <button class="add_field">Add</button>
+        <button class="submit">submit</button>
+        <select id="num_of_people">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+        </select>
+        <br><br><br><br>
+        
+        
+            Total Price: <input type="text" disabled="disabled" id="total_prices" value="">
+            <br><br><br>
+        
+    </div>
+
+    
+
+</body>
+</html>
