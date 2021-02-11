@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Try2</title>
+    <title>Land System</title>
 
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script>
@@ -12,18 +12,27 @@
             number_of_fixed_price++;
             var obj = document.getElementById('main');
             var row = document.createElement("div");
-            row.innerHTML = '<div class="reverse" id="fields"><div style="float: rgiht; margin-left: 20px;"><label for="name1">رقم القطعة</label><input type="text" name="name" id="name1"></div><div style="float: right; margin-left: 20px; "><label for="area1">المساحة</label><input type="text" name="area" id="area'+number_of_fixed_price+'" onblur="calcPrice()"></div><div style="float: right; margin-left: 20px;"><label for="price_per_meter1">سعر المتر</label><input type="text" name="price_per_meter" id="price_per_meter'+number_of_fixed_price+'" onblur="calcPrice()"></div><div style="float: right; margin-left: 20px;"><label for="price_after1">سعر القطعة</label><input type="text" name="price_after" id="price_after'+number_of_fixed_price+'" disabled></div></div><hr>';
+            row.innerHTML = '<div id="fields'+number_of_fixed_price+'""><div class="reverse"><div style="float: right; margin-left: 20px;"><label for="name1">رقم القطعة</label><input type="text" name="name" id="name1"></div><div style="float: right; margin-left: 20px; "><label for="area1">المساحة</label><input type="text" name="area" id="area'+number_of_fixed_price+'" onblur="calcPrice()"></div><div style="float: right; margin-left: 20px;"><label for="price_per_meter1">سعر المتر</label><input type="text" name="price_per_meter" id="price_per_meter'+number_of_fixed_price+'" onblur="calcPrice()"></div><div style="float: right; margin-left: 20px;"><label for="price_after1">سعر القطعة</label><input type="text" name="price_after" id="price_after'+number_of_fixed_price+'" disabled></div><div style="padding-top: 30px;"></div><div style="float: right; margin-left: 20px; padding-top: 30px;""><button class="btn btn-danger btn-sm" id="but1" value="fields'+number_of_fixed_price+'" onclick="deleteRow(this.value)">حذف</button></div></div><div class="container"><hr></div></div>';
             obj.appendChild(row);
         }
 
+        function addInputs(){
+          var inputs = document.getElementById('addInputs').value;
+          for(var i = 0; i < inputs; i++){
+            addFields();
+          }
+        }
+
         function calcPrice(){
-            
-            for(var i = 1; 1 <= number_of_fixed_price; i++){
-                var num1 = document.getElementById('area'+i).value;
-                var num2 = document.getElementById('price_per_meter'+i).value;
+            var arr_area = document.getElementsByName('area');
+            var arr_price = document.getElementsByName('price_per_meter');
+            var arr_price_after = document.getElementsByName('price_after');
+            for(var i = 0; i < arr_area.length; i++){
+                var num1 = parseFloat(arr_area[i].value);
+                var num2 = parseFloat(arr_price[i].value);
                 var product = num1 * num2;
                 product = Math.round((product + Number.EPSILON) * 100) / 100
-                document.getElementById('price_after'+i).value = product;
+                arr_price_after[i].value = product;
                 totalPrice();
                 totalArea();
             }
@@ -64,6 +73,14 @@
           var profit = (sell_price - (buy_price * total_area))/(buy_price * total_area) * 100;
           profit = Math.round((profit + Number.EPSILON) * 100) / 100
           document.getElementById('profit_margin').value = profit+"%";
+        }
+
+        function deleteRow(div){
+          //var x = document.getElementById(div).value;
+          document.getElementById(div).innerHTML = "";
+          //item.parentNode.removeChild(item);
+          calcPrice();
+          
         }
     </script>
     <style>
@@ -119,6 +136,7 @@
             justify-content: center;
             flex-direction: row-reverse;
             margin-left: 20px;
+            
         }
 
         
@@ -159,59 +177,78 @@
       <section class="jumbotron text-center">
         <div class="container">
             <h1>حساب قيمة الاراضي</h1><br>
-            <button class="btn btn-primary" onclick="addFields()">اضافة سطر</button>
+            <div class="container text-center">
+              
+              <input id="addInputs" type="text">
+              <button class="btn btn-primary" onclick="addInputs()">اضافة سطر</button><br><br><hr>
+              
+              
+            </div>
         </div>
       </section>
     <div id="main">
-        <div class="reverse" id="fields">
-
-            <div style="float: rgiht; margin-left: 20px;">
+        <div  id="fields1" style="padding-left: 50px;">
+          <div class="reverse">
+            <div style="float: right; margin-left: 20px;">
                 <label for="name1">رقم القطعة</label>
-                <input type="text" name="name" id="name1" size="5" maxlength="3">
+                <input type="text" name="name" id="name1">
             </div>
 
             <div style="float: right; margin-left: 20px; ">
                 <label for="area1">المساحة</label>
-                <input type="text" name="area" id="area1" size="15" onblur="calcPrice()">
+                <input type="text" name="area" id="area1" onblur="calcPrice()">
             </div>
 
             <div style="float: right; margin-left: 20px;">
                 <label for="price_per_meter1">سعر المتر</label>
-                <input type="text" name="price_per_meter" id="price_per_meter1" size="15" onblur="calcPrice()">
+                <input type="text" name="price_per_meter" id="price_per_meter1" onblur="calcPrice()">
             </div>
 
             <div style="float: right; margin-left: 20px;">
                 <label for="price_after1">سعر القطعة</label>
-                <input type="text" name="price_after" id="price_after1" size="15" disabled>
+                <input type="text" name="price_after" id="price_after1" disabled>
             </div>
+            <div style="float: right; margin-left: 20px; padding-top: 30px;">
+              <button style="display: none;" class="btn btn-danger btn-sm" id="but1" value="fields1" onclick="deleteRow(this.value)">Delete</button>
+            </div>
+          </div>
             
-            </div>
-        <hr>
+            
+          <div class="container" style="padding-right: 50px;">
+          <hr>  
+          </div> 
+          
+            
+           
+          </div>
     </div>
 
 
       <br>
-      
-      <div class="container" style="justify-content: center; align-items: center; display: flex; flex-direction: row-reverse;">
+      <div class="container text-center">
+        <button class="btn btn-primary"  onclick="addFields()">اضافة سطر</button><br><br><hr>
+      </div>
+      <br>
+      <div class="container" style="justify-content: center; align-items: center; display: flex; flex-direction: row-reverse; padding-left: 80px;">
         <label for="area_total" style="display: inline-block; margin: 5px;"> :مجموع المساحة الكامل  </label>
-        <input id="area_total"  style=" margin-left: 40px;" disabled>
+        <input id="area_total"  style=" margin-left: 30px; " disabled>
 
         <label for="price_total" style="display: inline-block; margin: 5px;"> :مجموع السعر الكامل  </label>
         <input id="price_total" disabled>
         
       </div>
-      <br><br><br><br><hr>
+      <br><br><hr><br>
       <div class="container" style="justify-content: center; align-items: center; display: flex; flex-direction: row-reverse;">
         
         
         
         <label for="purchase_price" style="display: inline-block; margin: 5px;"> : مبلغ شراء</label>
-        <input type="text" id="purchase_price" onblur="profitMargin()"><br>
-        <label for="profit_margin" style="display: inline-block; margin: 5px;"> :نسبة الربح </label>
+        <input type="text" id="purchase_price" style=" margin-left: 30px; " onblur="profitMargin()"><br>
+        <label for="profit_margin" style="display: inline-block; margin: 5px;"> : نسبة الربح </label>
         <input id="profit_margin" disabled>
         
       </div>
-
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
       
   
