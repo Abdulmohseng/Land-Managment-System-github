@@ -33,8 +33,10 @@
                 var product = num1 * num2;
                 product = Math.round((product + Number.EPSILON) * 100) / 100
                 arr_price_after[i].value = product;
+                if (isNaN(arr_price_after[i].value)) arr_price_after[i].value = 0;
                 totalPrice();
                 totalArea();
+                profitMargin()
             }
             
             
@@ -62,6 +64,7 @@
             }
             total = Math.round((total + Number.EPSILON) * 100) / 100;
             document.getElementById('area_total').value = total;
+            if (isNaN(document.getElementById('area_total').value)) document.getElementById('area_total').value = 0;
             
 
         }
@@ -73,6 +76,7 @@
           var profit = (sell_price - (buy_price * total_area))/(buy_price * total_area) * 100;
           profit = Math.round((profit + Number.EPSILON) * 100) / 100
           document.getElementById('profit_margin').value = profit+"%";
+          
         }
 
         function deleteRow(div){
